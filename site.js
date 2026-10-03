@@ -233,6 +233,34 @@ const productsData = {
       './img/rulonnye-shtory-1.png',
       './img/rulonnye-shtory-2.png'
     ]
+  },
+  'gorizontalnye-aluminievye': {
+    id: 'gorizontalnye-aluminievye',
+    title: 'Горизонтальные алюминиевые жалюзи',
+    badge: 'Классика · 171 просмотр',
+    price: 'от 2 000 ₽/м²',
+    oldPrice: '',
+    desc: `
+      <p><strong>Классические горизонтальные алюминиевые жалюзи</strong> — практичный и долговечный способ солнцезащиты для любых пластиковых окон в квартире, загородном доме или офисе.</p>
+      <ul style="padding-left: 1.2rem; margin: 0.6rem 0; color: #444; font-size: 0.94rem; line-height: 1.6;">
+        <li><strong>Прочность и долговечность:</strong> алюминиевые ламели устойчивы к выгоранию, деформации и перепадам температур.</li>
+        <li><strong>Влагостойкость:</strong> идеальны для кухонь, балконов, ванных комнат и офисных помещений.</li>
+        <li><strong>Удобная регулировка:</strong> поворот ламелей позволяет тонко настраивать освещенность в комнате.</li>
+        <li><strong>Цены от производителя:</strong> изготовление под индивидуальные размеры оконного проема.</li>
+      </ul>
+      <p style="font-weight: 700; color: var(--orange); margin-top: 0.5rem;">Цена: от 2 000 ₽ за кв. метр</p>
+      <div class="modal-notice-box">
+        <strong>Точную цену</strong> Вы можете узнать после бесплатного замера окна нашим специалистом.<br/>
+        Позвоните или напишите в WhatsApp — мастер приедет с каталогом всех расцветок!
+      </div>
+    `,
+    phone: '+79681144004',
+    phoneFormatted: '+7 968 11 44 004',
+    waText: 'Здравствуйте! Интересуют горизонтальные алюминиевые жалюзи. Хочу вызвать замерщика.',
+    images: [
+      './img/gorizontalnye-aluminievye-1.jpg',
+      './img/gorizontalnye-aluminievye-2.jpg'
+    ]
   }
 };
 
