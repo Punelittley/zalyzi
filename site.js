@@ -77,4 +77,175 @@ range.addEventListener('input', setSlider);
 setSlider();
 
 const stack = document.getElementById('stack');
-stack.addEventListener('click', () => stack.classList.toggle('spread'));
+if (stack) stack.addEventListener('click', () => stack.classList.toggle('spread'));
+
+// --- PRODUCT CATALOG & MODAL LOGIC ---
+const productsData = {
+  'jaluzi-perforated': {
+    id: 'jaluzi-perforated',
+    title: 'Горизонтальные перфорированные жалюзи',
+    badge: 'Хит продаж · Скидка',
+    price: 'от 1 800 ₽/м²',
+    oldPrice: '2 700 ₽',
+    desc: `
+      <p><strong>Непрозрачные алюминиевые ламели</strong> обладают жестким каркасом, полностью защищая помещение от лучей солнца.</p>
+      <p>В том случае, если не требуется отгородиться от окружающего мира, отличным решением становятся перфорированные жалюзи. У таких жалюзи ламели наделены перфорацией, которая создает в помещении уникальное освещение.</p>
+      <div class="modal-notice-box">
+        <strong>Точную цену</strong> Вы можете узнать после замера окна нашим специалистом.
+      </div>
+    `,
+    phone: '+79681144004',
+    phoneFormatted: '+7 968 11 44 004',
+    waText: 'Здравствуйте! Интересуют горизонтальные перфорированные жалюзи. Хочу вызвать замерщика.',
+    images: [
+      './img/jaluzi-perf-1.png',
+      './img/jaluzi-perf-2.png',
+      './img/jaluzi-perf-3.jpg',
+      './img/jaluzi-perf-4.png',
+      './img/jaluzi-perf-5.jpg'
+    ]
+  }
+};
+
+const modal = document.getElementById('productModal');
+const modalClose = document.getElementById('modalClose');
+const modalMainImg = document.getElementById('modalMainImg');
+const modalPrev = document.getElementById('modalPrev');
+const modalNext = document.getElementById('modalNext');
+const modalCounter = document.getElementById('modalCounter');
+const modalThumbs = document.getElementById('modalThumbs');
+const modalBadge = document.getElementById('modalBadge');
+const modalTitle = document.getElementById('modalTitle');
+const modalPrice = document.getElementById('modalPrice');
+const modalOldPrice = document.getElementById('modalOldPrice');
+const modalDesc = document.getElementById('modalDesc');
+const modalCallBtn = document.getElementById('modalCallBtn');
+const modalCallText = document.getElementById('modalCallText');
+const modalWaBtn = document.getElementById('modalWaBtn');
+const modalMainView = document.getElementById('modalMainView');
+
+let currentProduct = null;
+let currentImgIndex = 0;
+
+function updateModalGallery(idx) {
+  if (!currentProduct || !currentProduct.images || !currentProduct.images.length) return;
+  currentImgIndex = (idx + currentProduct.images.length) % currentProduct.images.length;
+  
+  modalMainImg.style.opacity = '0.35';
+  modalMainImg.src = currentProduct.images[currentImgIndex];
+  modalMainImg.alt = `${currentProduct.title} - фото ${currentImgIndex + 1}`;
+  modalCounter.textContent = `${currentImgIndex + 1} / ${currentProduct.images.length}`;
+
+  setTimeout(() => {
+    modalMainImg.style.opacity = '1';
+  }, 40);
+
+  const thumbs = modalThumbs.querySelectorAll('.modal-thumb');
+  thumbs.forEach((th, i) => {
+    th.classList.toggle('active', i === currentImgIndex);
+    if (i === currentImgIndex) {
+      th.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  });
+}
+
+function openProductModal(productId) {
+  const prod = productsData[productId];
+  if (!prod) return;
+
+  currentProduct = prod;
+  currentImgIndex = 0;
+
+  modalTitle.textContent = prod.title;
+  modalBadge.textContent = prod.badge || 'В наличии · Под заказ';
+  modalPrice.textContent = prod.price;
+  modalOldPrice.textContent = prod.oldPrice || '';
+  modalDesc.innerHTML = prod.desc;
+
+  if (prod.phone) {
+    modalCallBtn.href = `tel:${prod.phone}`;
+    modalCallText.textContent = `Вызвать замерщика: ${prod.phoneFormatted || prod.phone}`;
+  }
+
+  if (prod.waText) {
+    const rawPhone = prod.phone.replace(/[^0-9]/g, '');
+    modalWaBtn.href = `https://wa.me/${rawPhone}?text=${encodeURIComponent(prod.waText)}`;
+  }
+
+  modalThumbs.innerHTML = '';
+  prod.images.forEach((imgSrc, i) => {
+    const thumb = document.createElement('div');
+    thumb.className = `modal-thumb ${i === 0 ? 'active' : ''}`;
+    thumb.innerHTML = `<img src="${imgSrc}" alt="${prod.title} фото ${i + 1}" loading="lazy" />`;
+    thumb.addEventListener('click', () => updateModalGallery(i));
+    modalThumbs.appendChild(thumb);
+  });
+
+  updateModalGallery(0);
+
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+}
+
+function closeProductModal() {
+  if (!modal) return;
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('modal-open');
+}
+
+if (modalClose) modalClose.addEventListener('click', closeProductModal);
+
+if (modal) {
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeProductModal();
+  });
+}
+
+if (modalPrev) {
+  modalPrev.addEventListener('click', (e) => {
+    e.stopPropagation();
+    updateModalGallery(currentImgIndex - 1);
+  });
+}
+
+if (modalNext) {
+  modalNext.addEventListener('click', (e) => {
+    e.stopPropagation();
+    updateModalGallery(currentImgIndex + 1);
+  });
+}
+
+window.addEventListener('keydown', (e) => {
+  if (!modal || !modal.classList.contains('open')) return;
+  if (e.key === 'Escape') closeProductModal();
+  if (e.key === 'ArrowLeft') updateModalGallery(currentImgIndex - 1);
+  if (e.key === 'ArrowRight') updateModalGallery(currentImgIndex + 1);
+});
+
+let touchStartX = 0;
+let touchEndX = 0;
+if (modalMainView) {
+  modalMainView.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  modalMainView.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchEndX - touchStartX;
+    if (Math.abs(diff) > 40) {
+      if (diff < 0) updateModalGallery(currentImgIndex + 1);
+      else updateModalGallery(currentImgIndex - 1);
+    }
+  }, { passive: true });
+}
+
+document.querySelectorAll('[data-product-id]').forEach((el) => {
+  el.addEventListener('click', (e) => {
+    if (e.target.closest('a') && e.target.closest('a').getAttribute('href').startsWith('tel:')) return;
+    const pid = el.dataset.productId;
+    if (pid) openProductModal(pid);
+  });
+});
+
