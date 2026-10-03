@@ -43,13 +43,20 @@ document.querySelectorAll('[data-count]').forEach((el) => countIO.observe(el));
 
 function bindFilter(chipsId, itemsSelector) {
   const chips = document.getElementById(chipsId);
+  if (!chips) return;
   chips.addEventListener('click', (e) => {
     const chip = e.target.closest('.chip');
     if (!chip) return;
     chips.querySelectorAll('.chip').forEach((c) => c.classList.remove('active'));
     chip.classList.add('active');
+    const targetFilter = chip.dataset.f;
     document.querySelectorAll(itemsSelector).forEach((item) => {
-      item.classList.toggle('hide', chip.dataset.f !== 'all' && item.dataset.c !== chip.dataset.f);
+      if (targetFilter === 'all') {
+        item.classList.remove('hide');
+      } else {
+        const cats = (item.dataset.c || '').trim().split(/\s+/);
+        item.classList.toggle('hide', !cats.includes(targetFilter));
+      }
     });
   });
 }
