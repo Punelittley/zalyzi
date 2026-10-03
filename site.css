@@ -286,15 +286,232 @@ p { margin: 0; }
 .handle-banner .btn-black:hover { background: var(--orange-2); }
 
 /* CONTACTS */
-.contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 4rem; align-items: center; }
-.contact-list { display: grid; gap: 1rem; }
-.ct { display: flex; align-items: center; gap: 1.2rem; background: var(--black); color: #fff; padding: 1.4rem 1.6rem; border-radius: 6px; transition: transform .3s, background .3s; }
-.ct:hover { transform: translateX(-10px); background: var(--orange); }
-.ct small { display: block; color: rgba(255,255,255,.65); font-size: .8rem; }
-.ct b { font-family: var(--f-display); font-size: 1rem; font-weight: 700; }
-.ct-ico { width: 52px; height: 52px; flex: none; border-radius: 50%; background: var(--orange); display: grid; place-items: center; transition: background .3s; }
-.ct-ico svg { width: 24px; height: 24px; }
-.ct:hover .ct-ico { background: var(--black); }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+.contact-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.contact-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 0.2rem;
+}
+.contact-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+}
+.contact-feature-item svg {
+  color: var(--orange);
+  flex-shrink: 0;
+}
+
+/* AVITO CARD */
+.avito-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #ffffff;
+  padding: 1.1rem 1.4rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  transition: border-color .25s, box-shadow .25s;
+  text-decoration: none;
+  color: inherit;
+  margin-top: 0.6rem;
+}
+.avito-card:hover {
+  border-color: #4488ff;
+  box-shadow: 0 8px 24px rgba(68, 136, 255, 0.12);
+}
+.avito-card-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.avito-circles {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.avito-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.avito-dot.c-red { background: #ff6163; }
+.avito-dot.c-green { background: #73cc00; }
+.avito-dot.c-blue { background: #4488ff; }
+.avito-dot.c-purple { background: #a066ff; }
+.avito-text {
+  display: flex;
+  flex-direction: column;
+}
+.avito-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.avito-score {
+  font-weight: 800;
+  font-family: var(--f-display);
+  font-size: 1.05rem;
+  color: var(--black);
+}
+.avito-stars {
+  color: #ffaa00;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+.avito-sub {
+  font-size: 0.8rem;
+  color: #666;
+}
+.avito-arrow {
+  color: #999;
+  transition: color .2s, transform .2s;
+  display: flex;
+}
+.avito-card:hover .avito-arrow {
+  color: #4488ff;
+  transform: translateX(3px);
+}
+
+/* CONTACT CARDS LIST */
+.contact-list {
+  display: grid;
+  gap: 1rem;
+}
+.ct-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  background: #ffffff;
+  padding: 1.25rem 1.4rem;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  text-decoration: none;
+  color: var(--black);
+  transition: border-color .25s, box-shadow .25s;
+}
+.ct-card:hover {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+.ct-card.ct-phone-card:hover {
+  border-color: var(--orange);
+}
+.ct-card.ct-wa-card:hover {
+  border-color: #25d366;
+}
+.ct-card.ct-time-card {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.ct-card-main {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+.ct-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: #ffffff;
+}
+.ct-icon-phone {
+  background: linear-gradient(135deg, var(--orange), var(--orange-2));
+  box-shadow: 0 4px 14px rgba(255, 106, 0, 0.3);
+}
+.ct-icon-wa {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+}
+.ct-icon-time {
+  background: linear-gradient(135deg, #333333, #151515);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.ct-card-info {
+  display: flex;
+  flex-direction: column;
+}
+.ct-card-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
+}
+.ct-card-val {
+  font-family: var(--f-display);
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--black);
+  line-height: 1.25;
+}
+
+.ct-card-badge {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: background .2s, color .2s;
+  flex-shrink: 0;
+}
+.ct-badge-orange {
+  background: rgba(255, 106, 0, 0.1);
+  color: var(--orange);
+}
+.ct-card:hover .ct-badge-orange {
+  background: var(--orange);
+  color: #ffffff;
+}
+.ct-badge-green {
+  background: rgba(37, 211, 102, 0.12);
+  color: #128c7e;
+}
+.ct-card:hover .ct-badge-green {
+  background: #25d366;
+  color: #ffffff;
+}
+.ct-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #eef8f1;
+  color: #1b8743;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.ct-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #25d366;
+  box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25);
+}
 .footer { background: var(--black); color: rgba(255,255,255,.6); padding: 2rem 0; font-size: .9rem; }
 .footer .logo { color: #fff; }
 .foot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
