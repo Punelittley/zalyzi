@@ -54,7 +54,7 @@ function bindFilter(chipsId, itemsSelector) {
   });
 }
 bindFilter('prodChips', '#prodGrid .prod');
-bindFilter('galChips', '#gallery-grid .g');
+bindFilter('galChips', '#gallery-grid .work-card, #gallery-grid .g');
 
 document.querySelectorAll('.row-head').forEach((head) =>
   head.addEventListener('click', () => {
@@ -66,15 +66,17 @@ document.querySelectorAll('.row-head').forEach((head) =>
 );
 
 const range = document.getElementById('slRange');
-const stem = document.getElementById('slStem');
-const line = document.getElementById('slLine');
-const setSlider = () => {
-  const v = range.value;
-  stem.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
-  line.style.left = v + '%';
-};
-range.addEventListener('input', setSlider);
-setSlider();
+if (range) {
+  const stem = document.getElementById('slStem');
+  const line = document.getElementById('slLine');
+  const setSlider = () => {
+    const v = range.value;
+    if (stem) stem.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
+    if (line) line.style.left = v + '%';
+  };
+  range.addEventListener('input', setSlider);
+  setSlider();
+}
 
 const stack = document.getElementById('stack');
 if (stack) stack.addEventListener('click', () => stack.classList.toggle('spread'));
@@ -403,8 +405,17 @@ if (modalNext) {
 }
 
 window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    if (privacyModal && privacyModal.classList.contains('open')) {
+      closePrivacyModal();
+      return;
+    }
+    if (modal && modal.classList.contains('open')) {
+      closeProductModal();
+      return;
+    }
+  }
   if (!modal || !modal.classList.contains('open')) return;
-  if (e.key === 'Escape') closeProductModal();
   if (e.key === 'ArrowLeft') updateModalGallery(currentImgIndex - 1);
   if (e.key === 'ArrowRight') updateModalGallery(currentImgIndex + 1);
 });
@@ -433,4 +444,42 @@ document.querySelectorAll('[data-product-id]').forEach((el) => {
     if (pid) openProductModal(pid);
   });
 });
+
+// --- PRIVACY POLICY MODAL (152-FZ) ---
+const privacyModal = document.getElementById('privacyModal');
+const privacyClose = document.getElementById('privacyClose');
+
+function openPrivacyModal() {
+  if (privacyModal) {
+    privacyModal.classList.add('open');
+    privacyModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+}
+
+function closePrivacyModal() {
+  if (privacyModal) {
+    privacyModal.classList.remove('open');
+    privacyModal.setAttribute('aria-hidden', 'true');
+    const prodModal = document.getElementById('productModal');
+    if (!prodModal || !prodModal.classList.contains('open')) {
+      document.body.classList.remove('modal-open');
+    }
+  }
+}
+
+if (privacyClose) privacyClose.addEventListener('click', closePrivacyModal);
+if (privacyModal) {
+  privacyModal.addEventListener('click', (e) => {
+    if (e.target === privacyModal) closePrivacyModal();
+  });
+}
+
+document.querySelectorAll('.js-open-privacy').forEach((link) => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    openPrivacyModal();
+  });
+});
+
 
