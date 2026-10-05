@@ -489,12 +489,11 @@ document.querySelectorAll('.js-open-privacy').forEach((link) => {
   });
 });
 
-// --- SITE INTRO (VENETIAN BLINDS REVEAL EFFECT) ---
+// --- SITE INTRO (CURTAIN SLIDING EFFECT) ---
 (function() {
   const intro = document.getElementById('siteIntro');
   if (!intro) return;
 
-  const skipBtn = document.getElementById('introSkipBtn');
   let isClosed = false;
 
   const finishIntro = () => {
@@ -504,21 +503,13 @@ document.querySelectorAll('.js-open-privacy').forEach((link) => {
     setTimeout(() => {
       intro.classList.add('done');
       document.body.classList.remove('intro-locked');
-    }, 700);
+    }, 900);
   };
 
   document.body.classList.add('intro-locked');
 
-  // Auto trigger reveal after 1.5 seconds
-  const timer = setTimeout(finishIntro, 1500);
-
-  if (skipBtn) {
-    skipBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      clearTimeout(timer);
-      finishIntro();
-    });
-  }
+  // Smoothly slide curtains open after 1.4s
+  const timer = setTimeout(finishIntro, 1400);
 
   intro.addEventListener('click', () => {
     clearTimeout(timer);
