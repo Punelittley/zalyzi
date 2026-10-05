@@ -489,4 +489,49 @@ document.querySelectorAll('.js-open-privacy').forEach((link) => {
   });
 });
 
+// --- SITE INTRO (VENETIAN BLINDS REVEAL EFFECT) ---
+(function() {
+  const intro = document.getElementById('siteIntro');
+  if (!intro) return;
+
+  const skipBtn = document.getElementById('introSkipBtn');
+  let isClosed = false;
+
+  const finishIntro = () => {
+    if (isClosed) return;
+    isClosed = true;
+    intro.classList.add('opening');
+    setTimeout(() => {
+      intro.classList.add('done');
+      document.body.classList.remove('intro-locked');
+    }, 700);
+  };
+
+  document.body.classList.add('intro-locked');
+
+  // Auto trigger reveal after 1.5 seconds
+  const timer = setTimeout(finishIntro, 1500);
+
+  if (skipBtn) {
+    skipBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      clearTimeout(timer);
+      finishIntro();
+    });
+  }
+
+  intro.addEventListener('click', () => {
+    clearTimeout(timer);
+    finishIntro();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' || e.key === ' ') {
+      clearTimeout(timer);
+      finishIntro();
+    }
+  }, { once: true });
+})();
+
+
 
