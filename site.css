@@ -1094,6 +1094,33 @@ body.modal-open {
   color: #666;
 }
 
+/* Photo toggle button for work cards with multiple images */
+.work-toggle-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0,0,0,0.60);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.work-toggle-btn:hover {
+  background: var(--orange);
+}
+.work-toggle-btn svg {
+  flex-shrink: 0;
+}
+
 /* ==========================================================================
    HERO SUNBEAM & AMBIENT BLINDS EFFECT
    ========================================================================== */

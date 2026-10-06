@@ -451,9 +451,13 @@
 
             <!-- 10. Комплексное оформление офиса -->
             <div class="work-card" data-c="roll horizontal">
-              <div class="work-img">
+              <div class="work-img work-img--toggle" data-photos='["./img/works/work-office-hall-closed.jpg","./img/works/work-office-hall.png"]' data-labels='["В закрытом виде","Шторы открыты"]'>
                 <span class="work-badge">Офис / Бизнес</span>
-                <img src="./img/works/work-office-hall.png" alt="Комплексное оформление окон офисного зала" loading="lazy" />
+                <img src="./img/works/work-office-hall-closed.jpg" alt="Офисные жалюзи в закрытом виде" loading="lazy" />
+                <button class="work-toggle-btn" type="button" aria-label="Переключить фото">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                  <span class="work-toggle-label">В закрытом виде</span>
+                </button>
               </div>
               <div class="work-info">
                 <h3>Остекление и солнцезащита офиса</h3>

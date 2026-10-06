@@ -88,6 +88,30 @@ if (range) {
 const stack = document.getElementById('stack');
 if (stack) stack.addEventListener('click', () => stack.classList.toggle('spread'));
 
+// --- WORK CARD PHOTO TOGGLE ---
+document.querySelectorAll('.work-img--toggle').forEach((container) => {
+  const photos = JSON.parse(container.dataset.photos || '[]');
+  const labels = JSON.parse(container.dataset.labels || '[]');
+  if (photos.length < 2) return;
+  let idx = 0;
+  const img = container.querySelector('img');
+  const btn = container.querySelector('.work-toggle-btn');
+  const labelEl = container.querySelector('.work-toggle-label');
+  if (!img || !btn) return;
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    idx = (idx + 1) % photos.length;
+    img.style.opacity = '0.4';
+    setTimeout(() => {
+      img.src = photos[idx];
+      img.alt = labels[idx] || '';
+      if (labelEl) labelEl.textContent = labels[idx] || '';
+      img.style.opacity = '1';
+    }, 150);
+  });
+  img.style.transition = 'opacity 0.15s';
+});
+
 // --- PRODUCT CATALOG & MODAL LOGIC ---
 const productsData = {
   'jaluzi-perforated': {
