@@ -95,21 +95,42 @@ document.querySelectorAll('.work-img--toggle').forEach((container) => {
   if (photos.length < 2) return;
   let idx = 0;
   const img = container.querySelector('img');
+  const segBtns = container.querySelectorAll('.work-seg-btn');
   const btn = container.querySelector('.work-toggle-btn');
   const labelEl = container.querySelector('.work-toggle-label');
-  if (!img || !btn) return;
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    idx = (idx + 1) % photos.length;
-    img.style.opacity = '0.4';
+  if (!img) return;
+
+  const setPhoto = (targetIdx) => {
+    idx = (targetIdx + photos.length) % photos.length;
+    img.style.opacity = '0.35';
     setTimeout(() => {
       img.src = photos[idx];
       img.alt = labels[idx] || '';
       if (labelEl) labelEl.textContent = labels[idx] || '';
+      segBtns.forEach((b, i) => b.classList.toggle('active', i === idx));
       img.style.opacity = '1';
-    }, 150);
+    }, 100);
+  };
+
+  segBtns.forEach((b, bIdx) => {
+    b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setPhoto(bIdx);
+    });
   });
-  img.style.transition = 'opacity 0.15s';
+
+  if (btn) {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setPhoto(idx + 1);
+    });
+  }
+
+  container.addEventListener('click', () => {
+    setPhoto(idx + 1);
+  });
+
+  img.style.transition = 'opacity 0.15s ease';
 });
 
 // --- PRODUCT CATALOG & MODAL LOGIC ---
@@ -123,13 +144,13 @@ const productsData = {
     desc: `
       <p><strong>Непрозрачные алюминиевые ламели</strong> обладают жестким каркасом, полностью защищая помещение от лучей солнца.</p>
       <p>В том случае, если не требуется отгородиться от окружающего мира, отличным решением становятся перфорированные жалюзи. У таких жалюзи ламели наделены перфорацией, которая создает в помещении уникальное освещение.</p>
+      <p style="font-weight: 700; color: var(--orange); margin-top: 0.5rem;">Цена: от 3 000 ₽ за кв. метр</p>
       <div class="modal-notice-box">
         <strong>Точную цену</strong> Вы можете узнать после замера окна нашим специалистом.
       </div>
     `,
     phone: '+79681144004',
     phoneFormatted: '+7 968 11 44 004',
-    waText: 'Здравствуйте! Интересуют горизонтальные перфорированные жалюзи. Хочу вызвать замерщика.',
     images: [
       './img/jaluzi-perf-1.png',
       './img/jaluzi-perf-2.png',
@@ -150,12 +171,11 @@ const productsData = {
       <p style="font-weight: 700; color: var(--orange); margin-top: 0.5rem;">Цена: 9 000 ₽ за кв. метр</p>
       <div class="modal-notice-box">
         <strong>Точную цену</strong> Вы можете узнать после замера окна нашим специалистом.<br/>
-        Пригласить замерщика можно по телефону или написав нам в WhatsApp.
+        Пригласить мастера на замер можно по телефону или написав нам на Авито.
       </div>
     `,
     phone: '+79681144004',
     phoneFormatted: '+7 968 11 44 004',
-    waText: 'Здравствуйте! Интересуют бамбуковые горизонтальные жалюзи. Хочу вызвать замерщика.',
     images: [
       './img/bambook-jaluzi-1.png',
       './img/bambook-jaluzi-2.png',
@@ -185,7 +205,6 @@ const productsData = {
     `,
     phone: '+79681144004',
     phoneFormatted: '+7 968 11 44 004',
-    waText: 'Здравствуйте! Интересуют рулонные жалюзи День-ночь (Зебра). Хочу вызвать замерщика.',
     images: [
       './img/zebra-day-night-1.png'
     ]
@@ -207,12 +226,11 @@ const productsData = {
       <p style="font-weight: 700; color: var(--orange); margin-top: 0.5rem;">Цена: от 2 800 ₽ (за готовое изделие)</p>
       <div class="modal-notice-box">
         <strong>Точную цену</strong> Вы можете узнать после замера окна нашим специалистом.<br/>
-        Позвоните или напишите в WhatsApp, чтобы записаться на бесплатный замер!
+        Позвоните или напишите нам на Авито, чтобы записаться на бесплатный замер!
       </div>
     `,
     phone: '+79681144004',
     phoneFormatted: '+7 968 11 44 004',
-    waText: 'Здравствуйте! Интересуют кассетные жалюзи (Роллайт). Хочу вызвать замерщика.',
     images: [
       './img/kassetnye-jaluzi-1.png'
     ]
@@ -234,12 +252,11 @@ const productsData = {
       <p style="font-weight: 700; color: var(--orange); margin-top: 0.5rem;">Цена: от 2 200 ₽ (за готовое изделие)</p>
       <div class="modal-notice-box">
         <strong>Точную цену</strong> Вы можете узнать после бесплатного замера окна нашим специалистом.<br/>
-        Позвоните или напишите в WhatsApp, мастер приедет с полным каталогом образцов!
+        Позвоните или напишите на Авито, мастер приедет с полным каталогом образцов!
       </div>
     `,
     phone: '+79681144004',
     phoneFormatted: '+7 968 11 44 004',
-    waText: 'Здравствуйте! Интересуют рулонные шторы. Хочу вызвать замерщика.',
     images: [
       './img/rulonnye-shtory-1.png',
       './img/rulonnye-shtory-2.png'
@@ -262,12 +279,11 @@ const productsData = {
       <p style="font-weight: 700; color: var(--orange); margin-top: 0.5rem;">Цена: от 2 000 ₽ за кв. метр</p>
       <div class="modal-notice-box">
         <strong>Точную цену</strong> Вы можете узнать после бесплатного замера окна нашим специалистом.<br/>
-        Позвоните или напишите в WhatsApp — мастер приедет с каталогом всех расцветок!
+        Позвоните или напишите на Авито — мастер приедет с каталогом всех расцветок!
       </div>
     `,
     phone: '+79681144004',
     phoneFormatted: '+7 968 11 44 004',
-    waText: 'Здравствуйте! Интересуют горизонтальные алюминиевые жалюзи. Хочу вызвать замерщика.',
     images: [
       './img/gorizontalnye-aluminievye-1.jpg',
       './img/gorizontalnye-aluminievye-2.jpg'
@@ -290,12 +306,11 @@ const productsData = {
       <p style="font-weight: 700; color: var(--orange); margin-top: 0.5rem;">Цена: от 4 000 ₽ за кв. метр</p>
       <div class="modal-notice-box">
         <strong>Точную цену</strong> Вы можете узнать после бесплатного замера окна нашим специалистом.<br/>
-        Позвоните или напишите в WhatsApp — специалист приедет с полным каталогом тканей!
+        Позвоните или напишите на Авито — специалист приедет с полным каталогом тканей!
       </div>
     `,
     phone: '+79681144004',
     phoneFormatted: '+7 968 11 44 004',
-    waText: 'Здравствуйте! Интересуют вертикальные тканевые жалюзи. Хочу вызвать замерщика.',
     images: [
       './img/vertikalnye-tkani-1.jpg',
       './img/vertikalnye-tkani-2.png'
@@ -317,7 +332,7 @@ const modalOldPrice = document.getElementById('modalOldPrice');
 const modalDesc = document.getElementById('modalDesc');
 const modalCallBtn = document.getElementById('modalCallBtn');
 const modalCallText = document.getElementById('modalCallText');
-const modalWaBtn = document.getElementById('modalWaBtn');
+const modalAvitoBtn = document.getElementById('modalAvitoBtn');
 const modalMainView = document.getElementById('modalMainView');
 
 let currentProduct = null;
@@ -361,11 +376,6 @@ function openProductModal(productId) {
   if (prod.phone) {
     modalCallBtn.href = `tel:${prod.phone}`;
     modalCallText.textContent = `Вызвать замерщика: ${prod.phoneFormatted || prod.phone}`;
-  }
-
-  if (prod.waText) {
-    const rawPhone = prod.phone.replace(/[^0-9]/g, '');
-    modalWaBtn.href = `https://wa.me/${rawPhone}?text=${encodeURIComponent(prod.waText)}`;
   }
 
   modalThumbs.innerHTML = '';
